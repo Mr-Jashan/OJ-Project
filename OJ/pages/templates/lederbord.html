@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Coding Prep {% endblock %} {% block content %}
+<h1>Leaderboard</h1>
+<table border="1">
+   <thead>
+      <tr>
+         <th>Rank</th>
+         <th>Username</th>
+         <th>Points</th>
+      </tr>
+   </thead>
+   <tbody>
+      {% for each in leaderbord %}
+      <tr>
+         <td>{{ forloop.counter}}</td>
+         <td>{{ each.user.username }}</td>
+         <td>{{each.points}}</td>
+      </tr>
+      {% empty %}
+      <tr>
+         <td colspan="4">No questions available.</td>
+      </tr>
+      {% endfor %}
+   </tbody>
+</table>
+{% endblock %}

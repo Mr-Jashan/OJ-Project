@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Coding Prep{% endblock %}
+{% block content %}
+
+<table border="5px">
+   <tr>
+      <th>Time</th>
+      <th>Language</th>
+      <th>Action</th>
+   </tr>
+   {% for submission in submissions %}
+   <tr>
+      <td>{{ submission.created_at }}</td>
+      <td>{{ submission.language }}</td>
+      <td>
+         <!-- Store the code in a data attribute -->
+         <button onclick="showCode(this)" data-code="{{ submission.code|escapejs }}">View Code</button>
+      </td>
+   </tr>
+   {% endfor %}
+</table>
+
+<!-- Code display div, hidden by default -->
+<div id="codePopup"
+   style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60%; max-width: 600px; background-color: gray; padding: 20px; border: 2px solid black; z-index: 1000;">
+   <span id="closeBtn" style="float: right; cursor: pointer;" onclick="hideCode()">X</span>
+   <h3>Code:</h3>
+   <pre id="codeContent" style="white-space: pre-wrap;"></pre>
+</div>
+
+<script>
+   // JavaScript to handle showing and hiding the code popup
+
+   function showCode(button) {
+      console.log('showCode called'); // Debugging log
+      // Get the code from the button's data attribute
+      var code = button.getAttribute('data-code');
+
+      // Decode Unicode escape sequences
+      var decodedCode = decodeUnicode(code);
+
+      // Set the decoded code to the pre element
+      document.getElementById('codeContent').textContent = decodedCode;
+
+      // Show the popup
+      document.getElementById('codePopup').style.display = 'block';
+   }
+
+   // Function to decode Unicode escape sequences
+   function decodeUnicode(str) {
+      // Convert \u escape sequences to actual characters
+      return str.replace(/\\u([0-9A-Fa-f]{4})/g, function (match, group) {
+         return String.fromCharCode(parseInt(group, 16));
+      });
+   }
+
+   function hideCode() {
+      console.log('hideCode called'); // Debugging log
+      document.getElementById('codePopup').style.display = 'none';
+   }
+</script>
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %} {% block title %}Coding Prep {% endblock %}
+{% block content %}
+<!-- <button type="submit" name="action" value="submissions">Submissions</button> -->
+<a href={% url 'submissions' %}><button>Submissions</button></a>
+<h1>{{ question.question_name }}</h1>
+<p>{{ question.question_statement }}</p>
+<p>Difficulty: {{ question.get_difficulty_display }}</p>
+
+<h2>Code Compiler</h2>
+<form method="POST">
+   {% csrf_token %} {{ form.as_p }}
+   <button type="submit" name="action" value="run">Run Code</button>
+   <button type="submit" name="action" value="submit">Submit</button>
+</form>
+
+{% if status is not None %}
+{% if status %}
+<h1>Accepted</h1>
+{% else %}
+<h3>Wrong : </h3>
+{% endif %}
+{% endif %}
+
+{%if 'run'%}
+<pre>{{output}}</pre>
+{%endif%} {% if wronge_code.output %} <h3>Input:</h3>
+<pre>{{ wronge_code.err_input }}</pre>
+<h3>Expected Output:</h3>
+<pre>{{ wronge_code.exp_output }}</pre>
+<h3>Output:</h3>
+<pre>{{ wronge_code.output }}</pre>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Self code {% endblock %} {% block content %}
+<h1>Compiler</h1>
+<form method="POST">
+  {%csrf_token%} {{form.as_p}}
+  <button type="submit">Run Code</button>
+</form>
+
+{% if context %}
+<h3>Output:</h3>
+<pre>{{ context.output }}</pre>
+{% else %}
+<p>No submission data found.</p> <!-- Add this line to check if the block is being skipped -->
+{% endif %}
+
+<!-- {% if submission %}
+<h3>Output:</h3>
+<pre>{{ submission.output_data }}</pre>
+{% endif %} -->
+
+
+{% endblock %}
